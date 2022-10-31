@@ -104,3 +104,6 @@ kubectl apply -f .\aks\
 Clean All AKS and Azure Resources
 
 az group delete --name myResourceGroup --yes --no-wait
+---------------------------
+Pull an Image from a Private Registry
+kubectl create secret docker-registry acr-secret --docker-server=luanshoppingacr.azurecr.io --docker-username=luanshoppingacr --docker-password=hmdlmH7mIEoKH6KblVqIdMQIU8+kSaFI --docker-email=luannguyen@thaohouse.onmicrosoft.com
