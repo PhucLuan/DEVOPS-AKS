@@ -3,34 +3,39 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-- master
+    branches:
+      include:
+      - main
+    paths:
+      include:
+      - Shopping/Shopping.API/*
+      - aks/shoppingapi.yaml
 
 resources:
 - repo: self
 
 variables:
+
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '97f7984e-ae59-4dc1-bcc0-52fb3c25bec8'
-  imageRepository: 'phucluandevopsaks'
+  imageRepository: 'shoppingapi'
   containerRegistry: 'luanshoppingacr.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/Shopping/Shopping.API/Dockerfile'
+  dockerfilePath: 'Shopping/Shopping.API/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
-  #vmImageName: 'ubuntu-latest'
+  vmImageName: 'ubuntu-latest'
+  
 
 stages:
 - stage: Build
-  displayName: Build and push stage
-  jobs:
+  displayName: Build stage
+  jobs:  
   - job: Build
     displayName: Build
     pool:
       name: luan-pool
     steps:
-    - task: DockerInstaller@0
-      inputs:
-        dockerVersion: '17.09.0-ce'
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
