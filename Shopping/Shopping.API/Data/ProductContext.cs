@@ -36,10 +36,10 @@ namespace Shopping.API.Data
             {
                 new Product()
                 {
-                    Name = "IPhone X Ahihi jijij hehehe",
+                    Name = "IPhone X Ahihi hehehe",
                     Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
                     ImageFile = "product-1.png",
-                    Price = 950.00M,
+                    Price = 9500.00M,
                     Category = "Smart Phone"
                 },
                 new Product()
