@@ -5,7 +5,7 @@
 trigger:
     branches:
       include:
-      - main
+      - masters
     paths:
       include:
       - Shopping/Shopping.API/*
@@ -17,21 +17,21 @@ resources:
 variables:
 
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'e2bd5050-0b04-449c-8cd9-9367bbf7b47e'
+  dockerRegistryServiceConnection: 'fcccb716-726d-42fc-ad0c-8bf2e1dea44d'
   imageRepository: 'shoppingapi'
-  containerRegistry: 'shoppingacr.azurecr.io'
+  containerRegistry: 'luanshoppingacr.azurecr.io'
   dockerfilePath: 'Shopping/Shopping.API/Dockerfile'
   tag: '$(Build.BuildId)'
-  imagePullSecret: 'shoppingacr20662ab5-auth'
+  imagePullSecret: 'luanshoppingacr17608eca-auth'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  
+
 
 stages:
 - stage: Build
   displayName: Build stage
-  jobs:  
+  jobs:
   - job: Build
     displayName: Build
     pool:
@@ -47,7 +47,7 @@ stages:
         buildContext: $(Build.SourcesDirectory)/Shopping
         tags: |
           $(tag)
-          
+
     - upload: aks
       artifact: aks
 
@@ -60,7 +60,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'aspnetrunrundevops.default'
+    environment: 'PhucLuanDEVOPSAKS.default'
     strategy:
       runOnce:
         deploy:
@@ -71,15 +71,14 @@ stages:
               action: createSecret
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
-              
+
           - task: KubernetesManifest@0
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
               manifests: |
-                $(Pipeline.Workspace)/aks/shoppingapi.yaml
+                $(Pipeline.Workspace)/aks/shoppingapi.yml
               imagePullSecrets: |
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
-
