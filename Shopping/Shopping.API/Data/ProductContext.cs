@@ -28,6 +28,16 @@ namespace Shopping.API.Data
             {
                 productCollection.InsertManyAsync(GetPreconfiguredProducts());
             }
+            productCollection.InsertOne(
+                new Product()
+                {
+                    Name = "IPhone 14 Ahihihihi",
+                    Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
+                    ImageFile = "product-1.png",
+                    Price = 9500.00M,
+                    Category = "Smart Phone test change"
+                }
+            );
         }
 
         private static IEnumerable<Product> GetPreconfiguredProducts()
@@ -36,7 +46,7 @@ namespace Shopping.API.Data
             {
                 new Product()
                 {
-                    Name = "IPhone X Ahihi hehehe",
+                    Name = "IPhone X",
                     Description = "This phone is the company's biggest change to its flagship smartphone in years. It includes a borderless.",
                     ImageFile = "product-1.png",
                     Price = 9500.00M,
