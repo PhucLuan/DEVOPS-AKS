@@ -3,34 +3,26 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 trigger:
-    branches:
-      include:
-      - main
-    paths:
-      include:
-      - Shopping/Shopping.API/*
-      - aks/shoppingapi.yaml
+- master
 
 resources:
 - repo: self
 
 variables:
-
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '97f7984e-ae59-4dc1-bcc0-52fb3c25bec8'
-  imageRepository: 'shoppingapi'
+  dockerRegistryServiceConnection: '273364e7-4975-48be-8b20-0f41bc73ce1e'
+  imageRepository: 'phucluandevopsaks'
   containerRegistry: 'luanshoppingacr.azurecr.io'
-  dockerfilePath: 'Shopping/Shopping.API/Dockerfile'
+  dockerfilePath: '$(Build.SourcesDirectory)/Shopping/Shopping.API/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
-  
 
 stages:
 - stage: Build
-  displayName: Build stage
-  jobs:  
+  displayName: Build and push stage
+  jobs:
   - job: Build
     displayName: Build
     pool:
@@ -43,6 +35,5 @@ stages:
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
-        buildContext: $(Build.SourcesDirectory)/Shopping
         tags: |
           $(tag)
