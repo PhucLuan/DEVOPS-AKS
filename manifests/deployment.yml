@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: phucluandevopsaks 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phucluandevopsaks
+  template:
+    metadata:
+      labels:
+        app: phucluandevopsaks 
+    spec:
+      containers:
+        - name: phucluandevopsaks 
+          image: luanshoppingacr.azurecr.io/phucluandevopsaks
+          ports:
+          - containerPort: 80
